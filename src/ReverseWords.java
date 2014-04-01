@@ -6,14 +6,12 @@ public class ReverseWords {
 		}
 		String[] words = input.split(" ");
 		StringBuilder output = new StringBuilder();
-		for (int index = words.length - 1; index > 0; index --) {
+		for (int index = words.length - 1; index >= 0; index --) {
 			if (words[index].length() == 0)
 				continue;
 			output.append(words[index]);
 			output.append(" ");
 		}
-		if (words.length > 0)
-		    output.append(words[0]);
 		return output.toString().trim();
     }
 	
