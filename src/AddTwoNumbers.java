@@ -13,11 +13,11 @@ public class AddTwoNumbers {
         	while (l1.next != null | l2.next != null) {
         		sum = carry;
         		if (l1.next != null) {
-        			sum += l1.val;
+        			sum += l1.next.val;
         			l1 = l1.next;
         		}
         		if (l2.next != null) {
-        			sum += l2.val;
+        			sum += l2.next.val;
         			l2 = l2.next;
         		}
         		pointer.next = new ListNode(sum % 10);
@@ -33,7 +33,7 @@ public class AddTwoNumbers {
     public static void main(String[] args){
         ListNode l1 = new ListNode(5);
         l1.next = new ListNode(1);
-        ListNode l2 = new ListNode(9);
-        ListNode.print(new AddTwoNumber().addTwoNumbers(l1, l2));
+        ListNode l2 = new ListNode(0);
+        ListNode.print(new AddTwoNumbers().addTwoNumbers(l1, l2));
     }
 }
