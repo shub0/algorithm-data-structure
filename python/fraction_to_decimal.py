@@ -1,35 +1,42 @@
 #! /usr/bin/python
 
+'''
+Given two integers representing the numerator and denominator of a fraction, return the fraction in string format. 
+If the fractional part is repeating, enclose the repeating part in parentheses.
+
+For example,
+Given numerator = 1, denominator = 2, return "0.5".
+Given numerator = 2, denominator = 1, return "2".
+Given numerator = 2, denominator = 3, return "0.(6)".
+'''
+
 class Solution:
     def fractionToDecimal(self, numerator, denominator):
-        if (numerator * denominator < 0):
-            return '-%s' % (self.fractionToDecimal(-1 * numerator, denominator))
-        residual = {}
-        _result = []
-        _result.append(str(numerator/denominator))
-        _result.append('.')
-        _residual = numerator % denominator
-        index = 0
-        residual[_residual] = index
-        start = 0
-        end = 0
-        if (_residual == 0):
-           return str(numerator/denominator)
-        while(_residual != 0):
-            index += 1
-            _result.append(str(_residual * 10 / denominator))
-            _residual = _residual * 10 % denominator
-            if _residual in residual.keys():
-	        start = residual[_residual]
-                end = index
+        if (denominator == 0):
+            return 0
+        if numerator % denominator == 0:
+            return str(numerator / denominator)
+        if (numerator > 0 and denominator < 0): return '-%s' % self.fractionToDecimal(numerator, -denominator)
+        if (numerator < 0 and denominator > 0): return '-%s' % self.fractionToDecimal(-numerator, denominator)
+        if (numerator < 0 and denominator < 0): return self.fractionToDecimal(-numerator, -denominator)
+        
+        result = [ str(numerator / denominator), '.' ]
+        residual = numerator % denominator
+        residual_dict = dict()
+        residual_dict[residual] = len(result)
+        while (residual > 0):
+            result.append(str(10 * residual / denominator))
+            residual = (10 * residual) % denominator
+            if (residual in residual_dict.keys()):
+                result.append(')')
                 break
-            residual[_residual] = index
-	decimal = 2
-        if (_residual == 0):
-            result = str((1.0 * numerator / denominator))
-        else:
-            result = '%s(%s)' % (''.join(_result[:decimal + start]),''.join( _result[decimal+start:decimal+end]))
-        return result.rstrip('.0')
+            residual_dict[residual] = len(result)
+        if (residual == 0):
+            return ''.join(result)
+        first_index = residual_dict[residual]
+        result.insert(first_index, '(')
+        return ''.join(result)
+
 if __name__ == '__main__':
 	solution = Solution()
-	print solution.fractionToDecimal(12, -7)
+	print solution.fractionToDecimal(1,13)
