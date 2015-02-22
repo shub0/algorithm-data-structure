@@ -19,21 +19,52 @@ class Solution:
     def wordBreak(self, s, word_dict):
         if len(s) == 0:
             return list()
-        segments = ['']
-        for index in range(len(s)):
-            new_segments = []
-            for segment in segments:
-                segment_length = sum([len(x) for x in segment.split()])
-                if s[segment_length:index+1] in word_dict:
-                    new_segment = '%s %s' % (segment, s[segment_length:index+1])
-                    new_segments.append(new_segment)
-            segments.extend(new_segments)
-        solution_list = list()
-        for segment in segments:
-            if sum([len(x) for x in segment.split()]) == len(s):
-                   solution_list.append(segment.strip())
-        return solution_list
+        match_segments = list()
+        if (s[0] in word_dict):
+            match_segments.append([s[0]])
+        else:
+            match_segments.append([''])
+        max_word_length = 0
+        for word in word_dict:
+            max_word_length = max(max_word_length, len(word))
+        for index in range(1,len(s)):
+            match_segments.append(list())
+            for match_length in range(index - max_word_length, index):
+                unmatch_segment = s[match_length:index+1]
+                if unmatch_segment in word_dict:
+                    if match_length == 0:
+                        match_segments[index].append(unmatch_segment)
+                        continue
+                    for match_segment in match_segments[match_length-1]:
+                        new_match_segment = '%s %s' % (match_segment, unmatch_segment)
+                        match_segments[index].append(new_match_segment)
+        
+        return match_segments[len(s)-1]
+
+    def wordBreak2(self, s, dict):
+        self.dict = dict
+        self.cache = {}
+        return self.break_helper(s)
+
+    def break_helper(self, s):
+        combs = []
+        if s in self.cache:
+            return self.cache[s]
+        if len(s) == 0:
+            return []
+
+        for i in range(len(s)):
+            if s[:i+1] in self.dict:
+                if i == len(s) - 1:
+                    combs.append(s[:i+1])
+                else:
+                    sub_combs = self.break_helper(s[i+1:])
+                    for sub_comb in sub_combs:
+                        combs.append(s[:i+1] + ' ' + sub_comb)
+
+        self.cache[s] = combs
+        return combs
 
 if __name__ == '__main__':
     solution = Solution()
-    print solution.wordBreak('catsanddog', ["cat", "cats", "and", "sand", "dog"])
+    print solution.wordBreak2('catsanddogdog', ["cat", "cats","an", "and", "sand", "dog"])
