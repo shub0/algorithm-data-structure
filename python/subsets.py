@@ -36,9 +36,19 @@ class Solution:
     # @param num, a list of integer
     # @return a list of lists of integer
     def subsetsWithDup(self, S):
-
+		size = len(S)
+		if size == 0:
+			return []
+		result_list = [[]]
+		sorted_s = sorted(S)
+		start_index = 0
+		for index in range(size):
+			if index == 0 or sorted_s[index] != sorted_s[index - 1]:
+				start_index = len(result_list)
+			result_list.extend([ prev_list+[sorted_s[index]] for prev_list in result_list[-start_index:] ])
+		return result_list
 
 if __name__ == '__main__':
 	solution = Solution()
 	print solution.subsets([1,2,3])
-	print solution.subsetsWithDup([1,2,2,2])
+	print solution.subsetsWithDup([5,5,5,5,5,5])
