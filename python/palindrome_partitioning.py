@@ -47,8 +47,25 @@ class Solution:
     # @param s, a string
     # @return an integer
 	def minCut(self, s):
-		# a easy solution is to first partition list and find the minimual length
-		# but it is not time efficient
+		size = len(s)
+		if size == 0:
+			return 0
+		# build palindrome determination array
+		is_pal = [ [False] * size for index in range(size) ]
+		for index1 in range(size):
+			for index2 in range(index1+1):
+				if s[index2] == s[index1] and (index1-index2 < 2 or is_pal[index2+1][index1-1]):
+					is_pal[index2][index1] = True
+
+		cut = range(size)
+		for index1 in range(size):
+			for index2 in range(index1+1):
+				if is_pal[index2][index1]:
+					if index2 == 0:
+						cut[index1] = 0
+					else:
+						cut[index1] = min(cut[index1], cut[index2-1] + 1)
+		return cut[-1]
 
 if __name__ == '__main__':
 	solution = Solution()
