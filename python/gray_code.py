@@ -29,6 +29,7 @@ class Solution:
             gray_code = []
             gray_code.extend([ code + '0' for code in prev_code ])
             gray_code.extend([ code + '1' for code in prev_code[::-1] ])
+
         return [ int(code, 2) for code in gray_code ]
 
 if __name__ == '__main__':

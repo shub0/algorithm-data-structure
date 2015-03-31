@@ -1,36 +1,52 @@
 #! /usr/bin/python
+'''
 
+ Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+    push(x) -- Push element x onto stack.
+    pop() -- Removes the element on top of the stack.
+    top() -- Get the top element.
+    getMin() -- Retrieve the minimum element in the stack.
+
+'''
 class MinStack:
     def __init__(self):
-        self.data_list = list()
-        
+        self.data = list()
+        self.min  = list()
+
     # @param x, an integer
     # @return an integer
     def push(self, x):
-        if len(self.data_list) == 0:
-            self.data_list.append((x,x))
-        else:
-            current_min = self.data_list[len(self.data_list)-1][1]
-            self.data_list.append((x, min(current_min, x)))
+        self.data.append(x)
+        if len(self.min) == 0 or x <= self.min[-1]:
+            self.min.append(x)
 
     # @return nothing
     def pop(self):
-        self.data_list.pop()
+        top = self.data.pop()
+        if top == self.min[-1]:
+            self.min.pop()
 
     # @return an integer
     def top(self):
-        if len(self.data_list) == 0: return 0
-        return self.data_list[len(self.data_list)-1][0]
+        return self.data[-1]
 
     # @return an integer
     def getMin(self):
-        if len(self.data_list) == 0: return 0
-        return self.data_list[len(self.data_list)-1][1]
+        return self.min[-1]
 
 if __name__ == '__main__':
     min_stack = MinStack()
+    min_stack.push(1)
+    min_stack.push(-3)
     min_stack.push(-3)
     print min_stack.getMin()
     min_stack.push(3)
     print min_stack.getMin()
     print min_stack.top()
+    min_stack.pop()
+    print min_stack.getMin()
+    min_stack.pop()
+    print min_stack.getMin()
+    min_stack.pop()
+    print min_stack.getMin()
