@@ -19,10 +19,15 @@ class Solution:
         print matrix
 
     def rotateInPlace(self, matrix):
-        return
+        N = len(matrix)
+        for i in range(N):
+            for j in range(i+1, N):
+                matrix[i][j], matrix[j][i] = matrix[j][i],matrix[i][j]
+        for i in range(N):
+            matrix[i].reverse()
+
 
 if __name__ == '__main__':
     solution = Solution()
     solution.rotate([[1]])
-    solution.rotate([[1,2,3],[4,5,6],[7,8,9]])
-
+    solution.rotateInPlace([[1,2,3],[4,5,6],[7,8,9]])
