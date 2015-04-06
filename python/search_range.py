@@ -10,7 +10,7 @@ return [3, 4].
 '''
 
 class Solution:
-    def search(self, num, target):
+    def searchPosition(self, num, target):
         start = 0
         end   = len(num) - 1
         pos   = len(num)
@@ -27,8 +27,8 @@ class Solution:
     # @param target, an integer to be searched
     # @return a list of length 2, [index1, index2]
     def searchRange(self, num, target):
-        index1 = self.search(num, target)
-        index2 = self.search(num, target+1)-1
+        index1 = self.searchPosition(num, target)
+        index2 = self.searchPosition(num, target+1)-1
         if index1 >= len(num) or num[index2] != target:
             index1 = -1
             index2 = -1
