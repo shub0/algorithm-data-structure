@@ -129,27 +129,14 @@ def wrapper(func, *args, **kwargs):
 def main():
     sample_size = [100,1000,10000]
     num_iteration = 10
+    alg_dict = {'bubble': bubble_sorting, 'insert': insert_sorting, 'heap':   heap_sorting, 'quick':  qsort, 'shell':  shell_sorting}
     for size in sample_size:
         num = random_int(size)
         print "\nTesting sort algorithm with sample size: %d" % size
-        copy_num = copy.copy(num)
-        bubble_wrapper = wrapper(bubble_sorting, copy_num)
-        copy_num = copy.copy(num)
-        insert_wrapper = wrapper(insert_sorting, copy_num)
-        copy_num = copy.copy(num)
-        heap_wrapper   = wrapper(heap_sorting, copy_num)
-        copy_num = copy.copy(num)
-        merge_wrapper  = wrapper(merge_sorting, copy_num)
-        copy_num = copy.copy(num)
-        quick_wrapper  = wrapper(qsort, copy_num)
-        copy_num = copy.copy(num)
-        shell_wrapper  = wrapper(shell_sorting, copy_num)
-#        print "Bubble sort: %s" % timeit.timeit(bubble_wrapper, number = num_iteration)
-        print "Insert sort: %s" % timeit.timeit(insert_wrapper, number = num_iteration)
-        print "Heap sort: %s" % timeit.timeit(heap_wrapper, number = num_iteration)
-        print "Merge sort: %s" % timeit.timeit(merge_wrapper, number = num_iteration)
-        print "Quick sort: %s" % timeit.timeit(quick_wrapper, number = num_iteration)
-        print "Shell sort: %s" % timeit.timeit(shell_wrapper, number = num_iteration)
+        for key in alg_dict.keys():
+            copy_num = copy.copy(num)
+            alg_wrapper = wrapper(alg_dict[key], copy_num)
+            print '%s %s per iteration' % (key, timeit.timeit(alg_wrapper, number = num_iteration) / num_iteration)
 
 if __name__ == '__main__':
     main()
