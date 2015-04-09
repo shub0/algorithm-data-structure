@@ -7,26 +7,14 @@ Binary Tree Traversal
 from node_struct import TreeNode
 
 class Solution:
-    def inOrderTraversal(self, root):
-        output = list()
-        self._inOrderTraversal(root, output)
-        return output
-
-    def _inOrderTraversal(self, root, output):
-        if not root:
-            return
-        self.inOrderTraversal(root.left, output)
-        output.append(root.val)
-        self.inOrderTraversal(root.right, output)
-        
     def preOrderTraversalNonRecursive(self, root):
         output = list()
         nodes_in_tree = list()
         current_node = root
         while len(nodes_in_tree) > 0 or current_node:
             while current_node:
+                output.append(current_node.val)    # visit()
                 nodes_in_tree.append(current_node)
-                output.append(current_node.val)
                 current_node = current_node.left
             current_node = nodes_in_tree.pop()
             current_node = current_node.right
@@ -41,7 +29,7 @@ class Solution:
                 nodes_in_tree.append(current_node)
                 current_node = current_node.left
             current_node = nodes_in_tree.pop()
-            output.append(current_node.val)
+            output.append(current_node.val)    # visit()
             current_node = current_node.right
         return output
 
