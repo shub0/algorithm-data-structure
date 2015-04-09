@@ -52,13 +52,36 @@ class Solution:
             current_node = current_node.right
         return output
 
+    def levelOrderTraversal(self, root):
+        output = list()
+        if not root:
+            return output
+        nodes_in_tree = list()
+        nodes_in_tree.append(root)
+        nodes_in_tree.append(None)
+        while len(nodes_in_tree) > 0:
+            current_node = nodes_in_tree.pop(0)
+            if not current_node:
+                output.append('#')
+                if len(nodes_in_tree) > 0:
+                    nodes_in_tree.append(None)
+                else:
+                    return output
+            else:
+                output.append(current_node.val)
+                if current_node.left:
+                    nodes_in_tree.append(current_node.left)
+                if current_node.right:
+                    nodes_in_tree.append(current_node.right)
+        return output
+
 if __name__ == '__main__':
     solution = Solution()
     root = TreeNode(1)
     root.left = TreeNode(0)
     root.right = TreeNode(2)
+    root.right.right = TreeNode(3)
     print 'pre order: %s'  % solution.preOrderTraversalNonRecursive(root)
     print 'in order: %s'   % solution.inOrderTraversalNonRecursive(root)
     print 'post order: %s' % solution.postOrderTraversalNonRecursive(root)
-
-        
+    print 'level order: %s'% solution.levelOrderTraversal(root)
