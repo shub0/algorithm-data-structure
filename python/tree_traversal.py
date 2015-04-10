@@ -59,21 +59,24 @@ class Solution:
         nodes_in_tree = list()
         nodes_in_tree.append(root)
         nodes_in_tree.append(None)
+        curr_level = list()
         while len(nodes_in_tree) > 0:
             current_node = nodes_in_tree.pop(0)
             if not current_node:
-                output.append('#')
+                output.append(curr_level[:])
+                curr_level = list()
                 if len(nodes_in_tree) > 0:
                     nodes_in_tree.append(None)
                 else:
                     return output
             else:
-                output.append(current_node.val)
+                curr_level.append(current_node.val)
                 if current_node.left:
                     nodes_in_tree.append(current_node.left)
                 if current_node.right:
                     nodes_in_tree.append(current_node.right)
         return output
+
 
 if __name__ == '__main__':
     solution = Solution()
