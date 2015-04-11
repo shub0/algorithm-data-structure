@@ -21,8 +21,17 @@ class UndirectedGraphNode:
         self.label = x
         self.neighbors = []
 
+# Definition for a TreeNode
 class TreeNode:
     def __init__(self, x):
         self.val   = x
         self.left  = None
         self.right = None
+
+# Defintion for a TreeLinkNode
+class TreeLinkNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+        self.next = None
