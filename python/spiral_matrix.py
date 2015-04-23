@@ -11,6 +11,15 @@ You should return the following matrix:
  [ 8, 9, 4 ],
  [ 7, 6, 5 ]
 ]
+
+Follow up:
+Given the following matrix:
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+You should return [1,2,3,6,9,8,7,4,5].
 '''
 
 class Solution:
@@ -36,6 +45,35 @@ class Solution:
                 direct_index %= 4
         return matrix
 
+    # @param matrix, a list of lists of integers
+    # @return a list of integers
+    def spiralOrder(self, matrix):
+        output = list()
+        if not matrix:
+            return output
+        ROW = len(matrix)
+        COL = len(matrix[0])
+        SIZE = ROW * COL
+        direct_index = 0
+        direction = [ (0,1), (1,0), (0,-1), (-1,0) ]
+        curr_row = 0
+        curr_col = -1
+        index = 0
+        VISITED = -1e10
+        while index < SIZE:
+            next_row = curr_row + direction[direct_index][0]
+            next_col = curr_col + direction[direct_index][1]
+            if next_row < ROW and next_col < COL and matrix[next_row][next_col] != VISITED:
+                curr_row = next_row
+                curr_col = next_col
+                output.append(matrix[curr_row][curr_col])
+                matrix[curr_row][curr_col] = VISITED
+                index += 1
+            else:
+                direct_index += 1
+                direct_index %= 4
+        return output
 if __name__ == '__main__':
     solution = Solution()
-    print '\n'.join([ str(line) for line in solution.generateMatrix(5)])
+    matrix = solution.generateMatrix(5)
+    print solution.spiralOrder(matrix)
