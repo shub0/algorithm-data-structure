@@ -23,40 +23,29 @@ class Solution:
     def nextPermutation(self, num):
         size = len(num)
         if size < 2:
-            return
-        max = num[-1]
-        pos = size - 1
-        while pos >= 0:
-            if max > num[pos]:
-                break
-            max = num[pos]
+            return num
+        pos = size - 2
+        while pos > -1 and num[pos] >= num[pos+1]:
             pos -= 1
+        print pos
+        if pos > -1:
+            for index in range(size - 1, pos, -1):
+                if num[index] > num[pos]:
+                    break
+            num[pos], num[index] = num[index], num[pos]
         self.reverse(num, pos + 1, size - 1)
-        if pos == -1:
-            return
-        for i in range(pos+1, size):
-            if num[i] > num[pos]:
-                num[i], num[pos] = num[pos], num[i]
-                break
-        return
 
     def previousPermutation(self, num):
         size = len(num)
-        if size < 2:
-            return
-        min = num[-1]
-        for pos in range(size-1, -1, -1):
-            if min < num[pos]:
-                break
-            min = num[pos]
-        self.reverse(num, pos + 1, size - 1)
-        if pos == -1:
-            return
-        for index in range(pos+1, size):
-            if num[index] < num[pos]:
-                num[index], num[pos] = num[pos], num[index]
-                break
-        return
+        pos = size - 2
+        while pos > -1 and num[pos] <= num[pos+1]:
+            pos -= 1
+        if pos > -1:
+            for index in range(size - 1, pos, -1):
+                if num[index] < num[pos]:
+                    break
+            num[pos], num[index] = num[index], num[pos]
+        self.reverse(num, pos+1, size-1)
 
     def reverse(self, num, start, end):
         while start < end:
@@ -68,5 +57,6 @@ if __name__ == '__main__':
     solution = Solution()
     num = [4,2,0,2,3,2,0]
     solution.nextPermutation(num)
+    print num
     solution.previousPermutation(num)
     print num
