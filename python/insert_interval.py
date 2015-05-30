@@ -21,32 +21,31 @@ class Solution:
     # @return {Interval[]}
     def insert(self, intervals, new_interval):
         size = len(intervals)
+        index = 0
+        inserted = False
         new_intervals = list()
-        if size == 0:
-            return [new_interval]
         start = new_interval.start
         end   = new_interval.end
-        index = 0
-        insert_flag = False
         while index < size:
             current_interval = intervals[index]
             # no overlapping
-            if insert_flag or start > current_interval.end:
+            if inserted or start > current_interval.end:
                 new_intervals.append(current_interval)
                 index += 1
                 continue
             while index < size:
                 current_interval = intervals[index]
-                if start > current_interval.end or end < current_interval.start:
+                # no overlapping
+                if end < current_interval.start or start > current_interval.end:
                     break
                 start = min(start, current_interval.start)
                 end   = max(end, current_interval.end)
                 index += 1
             new_intervals.append(Interval(start, end))
-            insert_flag = True
+            inserted = True
 
-        if not insert_flag:
-            new_intervals.append(Interval(start, end))
+        if not inserted:
+            new_intervals.append(Interval(start, ned))
         return new_intervals
 
 if __name__ == '__main__':

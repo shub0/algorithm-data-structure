@@ -13,27 +13,27 @@ class Solution:
     # @param {Interval[]} intervals
     # @return {Interval[]}
     def merge(self, intervals):
-        import operator
         output = list()
+        intervals.sort(key=lambda x: x.end)
         size = len(intervals)
         if size == 0:
             return output
-        intervals.sort(key=operator.attrgetter('end'))
         start = intervals[0].start
         end   = intervals[0].end
         output.append(intervals[0])
-        for index in range(1,size):
+        for index in range(1, size):
             current_interval = intervals[index]
-            # No overlapping
+            # no overlapping
             if end < current_interval.start:
-                output.append(current_interval)
+                # update start, end
+                start = current_interval.start
                 end = current_interval.end
+                output.append(current_interval) # copy data
                 continue
-            # overlapping
             while len(output) > 0 and output[-1].end >= current_interval.start:
                 last_interval = output.pop()
-                start = min(current_interval.start, last_interval.start)
-                end = max(current_interval.end, current_interval.end)
+                start = min(last_interval.start, current_interval.start)
+                end   = max(last_interval.end,   current_interval.end)
             output.append(Interval(start, end))
         return output
 
