@@ -38,8 +38,8 @@ if __name__ == '__main__':
     for index in range(1,2):
         cursor_node.next = ListNode(index)
         cursor_node = cursor_node.next
-    solution = Solution()
-    new_head = solution.swapPairs(head)
-    while new_head:
-        print new_head.x
-        new_head = new_head.next
+        solution = Solution()
+        new_head = solution.swapPairs(head)
+        while new_head:
+            print new_head.x
+            new_head = new_head.next
