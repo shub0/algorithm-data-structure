@@ -24,9 +24,9 @@ class Solution:
                 num_1 = stack.pop()
                 num_2 = stack.pop()
                 stack.append(int(supported_operators[token](num_2, num_1)))
-            else:
+            elif token.isdigit():
                 stack.append(int(token))
-        return stack[0]
+        return stack.pop()
 
 if __name__ == '__main__':
     solution = Solution()

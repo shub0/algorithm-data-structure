@@ -10,7 +10,7 @@ Return the starting gas station's index if you can travel around the circuit onc
 
 '''
 Alg here:
-Greedy algorithm, try to carry as much gas as possibl. Therefore the problem is transferred to a max-sum subarray problem
+Greedy algorithm, try to carry as much gas as possible. Therefore the problem is transferred to a max-sum subarray problem
 '''
 class Solution:
     # @param gas, a list of integers

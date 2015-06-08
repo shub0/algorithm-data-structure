@@ -84,7 +84,7 @@ if __name__ == '__main__':
     root = TreeNode(1)
     root.left = TreeNode(0)
     root.right = TreeNode(2)
-    root.right.right = TreeNode(3)o
+    root.right.right = TreeNode(3)
     print 'pre order: %s'  % solution.preOrderTraversalNonRecursive(root)
     print 'in order: %s'   % solution.inOrderTraversalNonRecursive(root)
     print 'post order: %s' % solution.postOrderTraversalNonRecursive(root)

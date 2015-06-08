@@ -25,8 +25,7 @@ class Solution:
         size_S = len(S)
         for char in T:
             dict_T[char] += 1
-        start = 0
-        end   = 0
+        start, end = 0, 0
         match = 0
         flag  = False
         min_window = S

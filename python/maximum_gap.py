@@ -13,7 +13,8 @@ class Solution:
     # The solution is in fact a bucket sorting
     def maximumGap(self, num):
         size = len(num)
-        if (size < 2): return 0
+        if (size < 2):
+            return 0
         min_value = min(num)
         max_value = max(num)
         bucket_size = (max_value - min_value - 1) / (size - 1) + 1

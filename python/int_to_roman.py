@@ -25,11 +25,9 @@ class Solution:
             elif (digit >= 5):
                 flag = True
                 digit -= 5
-            while (digit > 0):
-                roman.append(TENS[offset])
-                digit -= 1
+            roman.append(TENS[offset] * digit)
             if (flag): roman.append(FIVES[offset])
-            offset +=1 
+            offset +=1
         return ''.join(roman[::-1])
 
 if __name__ == '__main__':

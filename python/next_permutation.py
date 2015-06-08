@@ -27,13 +27,12 @@ class Solution:
         pos = size - 2
         while pos > -1 and num[pos] >= num[pos+1]:
             pos -= 1
-        print pos
         if pos > -1:
             for index in range(size - 1, pos, -1):
                 if num[index] > num[pos]:
                     break
             num[pos], num[index] = num[index], num[pos]
-        self.reverse(num, pos + 1, size - 1)
+        self.reverse(num, pos+1, size-1)
 
     def previousPermutation(self, num):
         size = len(num)

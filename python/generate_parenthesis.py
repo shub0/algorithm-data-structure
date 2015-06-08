@@ -34,7 +34,7 @@ class Solution:
                 if check_num > 0:
                     current_dict[string+')'] = check_num - 1
             string_dict = current_dict
-        return filter(self.validParenthesis, string_dict.keys())
+        return filter(lambda x: string_dict[x] == 0, string_dict.keys())
 
 if __name__ == '__main__':
     solution  = Solution()
