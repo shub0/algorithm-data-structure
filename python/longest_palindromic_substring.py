@@ -6,7 +6,7 @@ Given a string S, find the longest palindromic substring in S. You may assume th
 
 class Solution:
     def is_palindrome(self, s):
-        return s ==  s[::-1]
+        return s == s[::-1]
 
     # @param {string} s
     # @return {string}
@@ -25,6 +25,7 @@ class Solution:
                 if current_end - current_start < end - start:
                     break
                 current_end -= 1
+
             if current_end - current_start > end - start:
                 start = current_start
                 end = current_end

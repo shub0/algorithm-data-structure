@@ -24,13 +24,12 @@ class Solution:
         if m == 0 or n == 0:
             return 0
         dp_array = [ [0] * n for index in range(m) ]
-        for index in range(n):
-            dp_array[0][index] = 1
-        for index in range(m):
-            dp_array[index][0] = 1
-        for index_n in range(1, n):
-            for index_m in range(1, m):
-                dp_array[index_m][index_n] = dp_array[index_m-1][index_n] + dp_array[index_m][index_n-1]
+        for index_n in range(n):
+            for index_m in range(m):
+                if index_n == 0 or index_m == 0:
+                    dp_array[index_n][index_m] = 1
+                else:
+                    dp_array[index_m][index_n] = dp_array[index_m-1][index_n] + dp_array[index_m][index_n-1]
         return dp_array[-1][-1]
 
     # @param obstacleGrid, a list of lists of integers
@@ -40,7 +39,7 @@ class Solution:
             return 0
         num_rows = len(obstacleGrid)
         num_cols = len(obstacleGrid[0])
-        dp_array = [ [0] * num_cols for index in range(num_rows) ] 
+        dp_array = [ [0] * num_cols for index in range(num_rows) ]
         if obstacleGrid[0][0] == 1:
             return 0
         for index in range(0,num_cols):
