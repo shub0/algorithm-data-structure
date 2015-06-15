@@ -8,17 +8,26 @@ set(key, value) - Set or insert the value if the key is not already present. Whe
 '''
 
 class LRUCache:
-
     # @param capacity, an integer
     def __init__(self, capacity):
+        import collections
         self.capacity = capacity
+        self.used = 0
         self.cache = dict()
+        self.count = collections.defaultdict(int)
         self.log = list()
 
     def update_log(self, key):
-        if key in self.log:
-            self.log.remove(key)
+        self.count[key] += 1
         self.log.append(key)
+
+    def strip(self):
+        while self.used > self.capacity:
+            key = self.log.pop(0)
+            self.count[key] -= 1
+            if self.count[key] == 0:
+                self.used -= 1
+                del self.cache[key]
 
     # @return an integer
     def get(self, key):
@@ -30,12 +39,12 @@ class LRUCache:
     # @param key, an integer
     # @param value, an integer
     # @return nothing
-    def set(self, key, value):
-        self.update_log(key)
+    def set(self, key, value, size=1):
+        if key not in self.cache:
+            self.used += size
         self.cache[key] = value
-        if len(self.cache) > self.capacity:
-            LRU_key = self.log.pop(0)
-            self.cache.pop(LRU_key)
+        self.update_log(key)
+        self.strip()
 
 import collections
 class LRUCache2(collections.OrderedDict):
@@ -66,7 +75,7 @@ class LRUCache2(collections.OrderedDict):
         collections.OrderedDict.__setitem__(self, key, value)
 
 if __name__ == '__main__':
-    my_cache = LRUCache2(2)
+    my_cache = LRUCache(2)
     my_cache.set(2,1)
     my_cache.set(1,1)
     print my_cache.get(2)
