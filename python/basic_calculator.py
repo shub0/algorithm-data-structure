@@ -114,8 +114,8 @@ class Calculator:
 class Solution:
     def calculate(self, input_string):
         parser = Calculator(input_string)
-        return parser.addition()
+        return int(parser.addition())
 
 if __name__ == '__main__':
     solution = Solution()
-    print solution.calculate('1+5')
+    print solution.calculate("(1+(4+5+2)-3)+(6+8)")
