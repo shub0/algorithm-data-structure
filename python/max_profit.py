@@ -72,9 +72,9 @@ class Solution:
                 second_profit = max(second_profit, sell_price - prices[day_index])
             profit[day_index] += second_profit
         return max(profit)
-            
+
 if __name__ == '__main__':
     solution = Solution()
     print solution.maxProfit1([5,4,3,6,8,10,9,15])
+    print solution.maxProfit2([5,4,3,6,8,10,9,15])
     print solution.maxProfit3([1,2,4,2,5,7,2,4,9,0])
-

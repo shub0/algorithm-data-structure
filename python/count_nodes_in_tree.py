@@ -20,20 +20,6 @@ In a complete binary tree every level, except possibly the last, is completely f
 from node_struct import TreeNode
 
 class Solution:
-    # @param {TreeNode} root
-    # @return {integer}
-    def countNodesSlow(self, root):
-        nodes_in_tree = list()
-        count = 0
-        curr_node = root
-        while len(nodes_in_tree) > 0 or curr_node:
-            while curr_node:
-                nodes_in_tree.append(curr_node)
-                curr_node = curr_node.left
-            curr_node = nodes_in_tree.pop()
-            count += 1         # visit()
-            curr_node = curr_node.right
-        return count
 
     # @param {TreeNode} root
     # @return {integer}

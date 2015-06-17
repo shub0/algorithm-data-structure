@@ -32,7 +32,6 @@ class Solution:
         if COL == 0:
             return 0
         up = [ [1] * COL for index in range(ROW) ]
-        down = [ [1] * COL for index in range(ROW) ]
         for col in range(COL):
             max_number = 1
             for row in range(0, ROW):
@@ -41,20 +40,10 @@ class Solution:
                 up[row][col] = max_number
                 max_number += 1
 
-        for col in range(COL):
-            max_number = 1
-            for row in range(ROW-1, -1, -1):
-                if maxtrix[row][col] == '0':
-                    max_number = 0
-                down[row][col] = max_number
-                max_number += 1
-        print up
-        print down
         max_area = 0
         for row in range(ROW):
-            up_area = self.maxHistogram(up[row])
-            down_area = self.maxHistogram(down[row])
-            max_area = max(max_area, max(up_area, down_area))
+            temp_area = self.maxHistogram(up[row])
+            max_area = max(max_area, temp_area)
         return max_area
 
 
