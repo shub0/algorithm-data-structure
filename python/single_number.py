@@ -14,14 +14,17 @@ class Solution:
     # @param numbers, a list of integer
     # @return an integer
     def singleNumber(self, numbers):
-        result = 0
-        for number in numbers:
-            result ^= number
-        return result
+        return reduce(lambda x, y: x^y, numbers)
 
     # @param numbers, a list of integer
     # @return an integer
     def singleNumber2(self, numbers):
+        one = 0
+        second = 0
+        for num in numbers:
+            one = (one ^ num) & ~second
+            second = (second ^ num) & ~one
+        return one
 
 if __name__ == '__main__':
     solution = Solution()

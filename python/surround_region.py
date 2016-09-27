@@ -81,3 +81,5 @@ if __name__ == '__main__':
     board = [list("OOO"),list("OOO"),list("OOO")]
     solution.solve(board)
     print board
+
+

@@ -38,7 +38,7 @@ class Solution:
                     for match_segment in match_segments[match_length-1]:
                         new_match_segment = '%s %s' % (match_segment, unmatch_segment)
                         match_segments[index].append(new_match_segment)
-        
+
         return match_segments[len(s)-1]
 
     def wordBreak2(self, s, dict):
@@ -59,12 +59,12 @@ class Solution:
                     combs.append(s[:i+1])
                 else:
                     sub_combs = self.break_helper(s[i+1:])
-                    for sub_comb in sub_combs:
-                        combs.append(s[:i+1] + ' ' + sub_comb)
+                    combs.extend([ s[:i+1] + ' ' + sub_comb for sub_comb in sub_combs ] )
 
         self.cache[s] = combs
         return combs
 
+
 if __name__ == '__main__':
     solution = Solution()
-    print solution.wordBreak2('catsanddogdog', ["cat", "cats","an", "and", "sand", "dog"])
+    print solution.wordBreak('catsanddogdog', ["cat", "cats","an", "and", "sand", "dog"])
