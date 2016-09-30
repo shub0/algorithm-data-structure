@@ -8,64 +8,65 @@ from node_struct import ListNode
 class Solution:
     # @param head, a ListNode
     # @return a boolean
-    def hasCycle(self, head):
-        if head is None:
+   def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        if (not head):
             return False
-        fast_node = head
-        slow_node = head
-        while (fast_node.next and fast_node.next.next):
-            slow_node = slow_node.next
-            fast_node = fast_node.next.next
-            if fast_node == slow_node:
-                break
-        if fast_node.next is None or fast_node.next.next is None:
-            return False
-        return True
-
-    def get_size(self, head):
+        quick_cursor = head
+        slow_cursor = head
+        while (quick_cursor and quick_cursor.next):
+            quick_cursor = quick_cursor.next.next
+            slow_cursor = slow_cursor.next
+            if (quick_cursor == slow_cursor):
+                return True
+        return False
+    def getSize(self, head):
         size = 0
         while head:
-            size += 1
             head = head.next
+            size += 1
         return size
 
-    # @param head, a ListNode
-    # @return a list node
     def detectCycle(self, head):
-        if head is None:
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if (not head):
             return None
-        fast_node = head
-        slow_node = head
-        while (fast_node.next and fast_node.next.next):
-            slow_node = slow_node.next
-            fast_node = fast_node.next.next
-            if slow_node == fast_node:
+        quick_cursor = head
+        slow_cursor = head
+        while (quick_cursor and quick_cursor.next):
+            quick_cursor = quick_cursor.next.next
+            slow_cursor = slow_cursor.next
+            if (quick_cursor == slow_cursor):
                 break
-        if fast_node.next is None or fast_node.next.next is None:
+        # No cycle
+        if (not quick_cursor) or (not quick_cursor.next):
             return None
-        fake_head = fast_node.next
-        fast_node.next = None
-        orig_len = self.get_size(head)
-        fake_len = self.get_size(fake_head)
-        # in case the list is a whole cycle and size = 2
-        if orig_len == 1:
-            return head
-        if orig_len > fake_len:
-            diff_len = orig_len - fake_len
-            while diff_len > 0:
-                head = head.next
-                diff_len -= 1
-        else:
-            diff_len = orig_len - fake_len
-            while diff_len > 0:
-                fake_head = fake_head.next
-                diff_len -= 1
-        while head and fake_head:
-            if head == fake_head:
-                return head
-                head = head.next
-                fake_head = fake_head.next
-        
+        new_cursor = quick_cursor.next
+        quick_cursor.next = None
+        cursor = head
+        size1 = self.getSize(cursor)
+        size2 = self.getSize(new_cursor)
+        # Align head
+        while size1 > size2:
+            cursor = cursor.next
+            size1 -= 1
+        while size2 > size1:
+            new_cursor = new_cursor.next
+            size2 -= 1
+
+        while cursor and new_cursor:
+            if cursor == new_cursor:
+                return cursor
+            cursor = cursor.next
+            new_cursor = new_cursor.next
+        return None
+
 
 if __name__ == '__main__':
     a = ListNode(1)

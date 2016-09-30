@@ -17,12 +17,12 @@ class Solution:
             return 0
         min_value = min(num)
         max_value = max(num)
-        bucket_size = (max_value - min_value - 1) / (size - 1) + 1
+        bucket_size = (max_value - min_value) / (size) + 1
         bucket_min_max = [(float('inf'), float('-inf')) for index in range(size)]
 
         for element in num:
             index = (element - min_value) / bucket_size
-            bucket_min_max[index] = (min(bucket_min_max[index][0], element), max(bucket_min_max[index][1], element))
+            bucket_min_max[index] = (min(ucket_min_max[index][0], element), max(bucket_min_max[index][1], element))
 
         gap = 0
         last_max = bucket_min_max[0][1]
@@ -31,7 +31,6 @@ class Solution:
                 continue
             gap = max(gap, bucket_min - last_max)
             last_max = bucket_max
-
         return gap
 
 if __name__ == '__main__':

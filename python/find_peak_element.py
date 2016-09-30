@@ -8,38 +8,34 @@ You may imagine that num[-1] = num[n] = -∞.
 For example, in array [1, 2, 3, 1], 3 is a peak element and your function should return the index number 2.
 '''
 
-class Solution:
-    # @param num, a list of integer
-    # @return an integer
-    # simple solution is O(N)
-    def findPeakElement_simple(self, num):
-        size = len(num)
-        if (size == 0): return -1
-        if (size == 1): return 0
-        for index in range(1, size - 1):
-            if (num[index] > num[index - 1] and num[index] > num[index + 1]):
-                return index
-        if num[0] > num[1]: return 0
-        if num[size - 1] > num[size - 2]: return size - 1
-        return -1
-class Solution:
-    # @param num, a list of integer
-    # @return an integer
-    # Best solution is O(logN)
-    # Following solution is not exactly what the quesiton requires
-    def findPeakElement_fast(self, num):
+class Solution(object):
+    def findPeakElement(self, num):
+        '''
+        1. at peak
+        2. at valley
+        3. at increasing slope
+        4. at decreasing slope
+        '''
         size = len(num)
         if (size == 0): return -1
         if (size == 1): return 0
         low_index = 0
         high_index = size - 1
-        while(low_index < high_index):
+        while(low_index < high_index - 1):
             mid_index = low_index + (high_index - low_index) / 2
-            if (num[mid_index] > num[mid_index + 1]):
+            # case 1
+            if ( num[mid_index] > num[mid_index - 1] and num[mid_index] > num[mid_index+1] ):
+                return mid_index
+            # case 4
+            elif (num[mid_index] < num[mid_index-1]):
                 high_index = mid_index
-            elif(num[mid_index] <= num[mid_index + 1]):
-                low_index = mid_index + 1
-        return low_index
+            # case 2 and 3
+            # if case 2, we can search either direction
+            else:
+                low_index = mid_index
+        if num[low_index] > num[high_index]:
+            return low_index
+        return high_index
 
 if __name__ == '__main__':
     solution = Solution()

@@ -9,26 +9,24 @@ the contiguous subarray [2,3] has the largest product = 6.
 class Solution:
     # @param num, a list of integers
     # @return an integer
-    def maxProduct(self, num):
-        size = len(num)
-        if size == 0:
+    def maxProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        size = len(nums)
+        if (size == 0):
             return 0
-        if size == 1:
-            return num[0]
-        max_product = num[0]
-        min_product = num[0]
-        curr_max_product = max_product
-        for element in num[1:]:
-            if element > 0:
-                max_product = max(element, element * max_product)
-                min_product = min(element, element * min_product)
+        max_product = nums[0]
+        min_product = nums[0]
+        curr_max_product = nums[0]
+        for num in nums[1:]:
+            if num >= 0:
+                max_product, min_product = max(num, num * max_product), min(num, num * min_product)
             else:
-                temp_max_product = max_product
-                max_product = max(element, element * min_product)
-                min_product = min(element, element * temp_max_product)
+                max_product, min_product = max(num, num * min_product), min(num, num * max_product)
             curr_max_product = max(curr_max_product, max_product)
         return curr_max_product
-
 if __name__ == '__main__':
     solution = Solution()
     print solution.maxProduct([2,3,-2,4])

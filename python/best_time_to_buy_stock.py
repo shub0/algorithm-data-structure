@@ -4,6 +4,7 @@ Say you have an array for which the ith element is the price of a given stock on
 1. If you were only permitted to complete at most one transaction
 2. You may complete as many transactions as you like
 3. You may complete at most two transactions.
+4. You may complete at most K transactions
 
 Note:
 You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
@@ -55,4 +56,27 @@ class Solution(object):
             profit1 = max(profit1, price+buy1)
             buy2 = max(buy2, profit1-price)
             profit2 = max(profit2, price+buy2)
-        return profit2
+        return max(profit2, profit1)
+
+    def maxProfit4(self, k, prices):
+        """
+        :type k: int
+        :type prices: List[int]
+        :rtype: int
+        """
+        if k < 1:
+            return 0
+        if k >= len(prices) / 2:
+            return self.maxProfit2(prices)
+
+        MIN_INT = -1e10
+        loan = [MIN_INT] * k
+        profit = [0] * (k)
+        for price in prices:
+           for index in range(k):
+               if index == 0:
+                   loan[index] = max(loan[index], -price)
+               else:
+                   loan[index] = max(loan[index], profit[index-1] - price)
+               profit[index] = max(profit[index], price+loan[index])
+        return max(profit)

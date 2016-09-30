@@ -9,54 +9,53 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
 '''
 
 from node_struct import ListNode
-class Solution:
-    # @param head, a ListNode
-    # @return a integer
-    @classmethod
-    def getSize(cls, head):
-        length = 0
-        while head:
-            head = head.next
-            length += 1
-        return length
-
-    # @param head, a ListNode
-    # @return nothing
+class Solution(object):
     def reorderList(self, head):
-        length = Solution.getSize(head)
-        if length < 3:
+        """
+        :type head: ListNode
+        :rtype: void Do not return anything, modify head in-place instead.
+        """
+        if (not head):
+            return None
+        quick_cursor = head
+        slow_cursor = head
+        while (quick_cursor and quick_cursor.next):
+            quick_cursor = quick_cursor.next.next
+            slow_cursor = slow_cursor.next
+        sec_head = slow_cursor.next
+        slow_cursor.next = None
+        new_head = self.reverse(sec_head)
+        self.zip(head, new_head)
+
+    def zip(self, head1, head2):
+        pivot = ListNode(0)
+        pivot.next = head1
+        cursor = pivot
+        while (head1 or head2):
+            if head1:
+                cursor.next=head1
+                cursor = cursor.next
+                head1 = head1.next
+            if head2:
+                cursor.next=head2
+                cursor = cursor.next
+                head2 = head2.next
+        return pivot.next
+
+    def reverse(self, head):
+        if (not head or not head.next):
             return head
-        second_head = head
-        # move to the second half of linked list
-        move_count = length / 2
-        while move_count > 0:
-            move_count -= 1
-            second_head = second_head.next
-        # reverse the second half of linked list
-        pre_node = second_head
-        cursor_node = second_head.next
-        second_head.next = None
-        next_node = cursor_node.next
-        while cursor_node.next:
-            next_node = cursor_node.next
-            cursor_node.next = pre_node
-            pre_node = cursor_node
-            cursor_node = next_node
-        cursor_node.next = pre_node
-        
-        # zip the first half and second half
-        pivot = head
-        move_count = length / 2
-        while move_count > 0:
-            move_count -= 1
-            pre_node = cursor_node.next
-            next_node = pivot.next
-            pivot.next = cursor_node
-            cursor_node.next = next_node
-            cursor_node = pre_node
-            pivot = next_node
-        pivot.next = None
-        return head
+        prev = None
+        curr = head
+        next = head.next
+        while curr.next:
+            next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
+        curr.next = prev
+        return curr
+
 
 if __name__ == '__main__':
     list_array = list()

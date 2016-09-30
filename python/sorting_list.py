@@ -15,7 +15,7 @@ class Solution:
         while (fast_head.next and fast_head.next.next):
             fast_head = fast_head.next.next
             slow_head = slow_head.next
-        
+
         pivot_first  = head
         pivot_second = slow_head.next
         slow_head.next = None
@@ -79,14 +79,38 @@ class Solution:
                 cursor = cursor.next
         return fake_head.next
 
+    def insertSortList(self, head):
+        if not head:
+            return head
+        pivot = ListNode(0)
+        pivot.next = head
+        cursor = head
+        while cursor.next:
+            if cursor.next.val < cursor.val:
+                # insert cursor.next after pre
+                pre = pivot
+                while pre.next.val < cursor.next.val:
+                    pre = pre.next
+                tmp = cursor.next
+                cursor.next = tmp.next
+                tmp.next = pre.next
+                pre.next = tmp
+            else:
+                cursor = cursor.next
+        return pivot.next
+
 if __name__ == '__main__':
-    head1 = ListNode(5)
-    head2 = ListNode(4)
-    head2.next = ListNode(6)
-    head2.next.next = ListNode(1)
-    head1.next = head2
+    a = ListNode(2)
+    b = ListNode(1)
+    c = ListNode(3)
+    d = ListNode(4)
+    e = ListNode(0)
+    a.next = b
+    b.next = c
+    c.next = d
+    d.next = e
     solution = Solution()
-    node = solution.insertionSortList(head1)
+    node = solution.insertSortList(a)
     while (node):
         print node.x
         node = node.next
