@@ -28,13 +28,12 @@ class Solution:
             return 0
         is_prime = [True] * (n-1)
         is_prime[0] = False      # 1 is not a prime
-        for factor in range(2, n-1):
-            if not is_prime[factor-1]:
+        for num in range(2, n-1):
+            if not is_prime[num-1]:
                 continue
-            for index in range(2*factor-1, n-1, factor):
+            for index in range(num*num-1, n-1, num):
                 is_prime[index] = False
-        print [i for i, elem in enumerate(is_prime, 1) if elem]
-        return sum(is_prime)
+        return len(filter(lambda x: x, is_prime))
 
 if __name__ == '__main__':
     solution = Solution()
