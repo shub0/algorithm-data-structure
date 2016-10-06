@@ -12,31 +12,30 @@ Depending on your language, queue may not be supported natively. You may simulat
 You may assume that all operations are valid (for example, no pop or top operations will be called on an empty stack).
 '''
 
-class Stack:
-    # initialize your data structure here.
+class Stack(object):
     def __init__(self):
-        self.queue = list()
+        self._queue = collections.deque()
 
-    # @param x, an integer
-    # @return nothing
     def push(self, x):
-        queue_bk = list()
-        queue_bk.append(x)
-        while len(self.queue) > 0:
-            queue_bk.append(self.queue.pop(0))
-        self.queue = queue_bk
+        q = self._queue
+        q.append(x)
+        for _ in range(len(q) - 1):
+            q.append(q.popleft())
 
-    # @return nothing
     def pop(self):
-        return self.queue.pop(0)
+        return self._queue.popleft()
 
-    # @return an integer
     def top(self):
-        return self.queue[0]
+        return self._queue[0]
 
-    # @return an boolean
     def empty(self):
-        return len(self.queue) == 0
+        return not len(self._queue)
+
+    def empty(self):
+        """
+        :rtype: bool
+        """
+        return not self._queue
 
 if __name__ == '__main__':
     stack = Stack()

@@ -29,6 +29,7 @@ class Calculator:
 
     def peek(self):
         while self.index < self.num_tokens - 1:
+            # Skip white space
             if self.tokens[self.index+1] != ' ':
                 break
             self.index += 1
