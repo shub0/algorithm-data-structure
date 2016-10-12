@@ -20,6 +20,7 @@ class BinaryIndexTree(object):
         index += 1
         while (index > 0):
             sum += self.tree[index-1]
+            # top down
             index -= ( index & -index)
         return sum
 
@@ -42,6 +43,7 @@ class BinaryIndexTree(object):
         index += 1
         while (index <= self.size):
             self.tree[index-1] += incr
+            # bottom up
             index += (index & (-index))
 
 bit = BinaryIndexTree([1,0,2,1,1,3,0,4,2,5,2,2,3,1,0,2])
