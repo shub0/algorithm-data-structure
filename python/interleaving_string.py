@@ -24,7 +24,7 @@ class Solution:
             return False
         if size1 == 0 and s2 == s3:
             return True
-        dp_array = [ [True] * (size1 + 1) for index in range(size2 + 1) ]
+        dp_array = [ [True] * (size1 + 1) for _ in range(size2 + 1) ]
         for index1 in range(0, size1 + 1):
             for index2 in range(0, size2 + 1):
                 if index1 == 0 and index2 == 0:
@@ -36,8 +36,34 @@ class Solution:
                 else:
                     dp_array[index2][index1] =  (s1[index1 - 1] == s3[index1 + index2 -1] and dp_array[index2][index1-1]) or (s2[index2 - 1] == s3[index1 + index2 - 1] and dp_array[index2-1][index1])
         return dp_array[-1][-1]
+class Solution(object):
+    def isInterleave(self, s1, s2, s3):
+        """
+        :type s1: str
+        :type s2: str
+        :type s3: str
+        :rtype: bool
+        """
+        size1 = len(s1)
+        size2 = len(s2)
+        size3 = len(s3)
+        if (size1 > size2):
+            return self.isInterleave(s2,s1,s3)
+        if size1 == 0:
+            return s2 == s3
+        if size1 + size2 != size3:
+            return False
+        dp_array = [ [True] * (size2+1) for _ in range(size1+1) ]
+        for index1 in range(1, size1+1):
+            dp_array[index1][0] = (s1[:index1] == s3[:index1])
+        for index2 in range(1, size2+1):
+            dp_array[0][index2] = (s2[:index2] == s3[:index2])
+        for index1 in range(1,size1+1):
+            for index2 in range(1,size2+1):
+                dp_array[index1][index2] = ( (s1[index1-1] == s3[index1+index2-1] and dp_array[index1-1][index2] ) or
+                                         (s2[index2-1] == s3[index1+index2-1] and dp_array[index1][index2-1]) )
+        return dp_array[size1][size2]
 
-if __name__ == '__main__':
-    solution = Solution()
-    print solution.isInterleave('aabcc', 'dbbca', 'aadbbcbcac')
-	print solution.isInterleave('aabcc', 'dbbca', 'aadbbbaccc')
+solution = Solution()
+print solution.isInterleave('aabcc', 'dbbca', 'aadbbcbcac')
+print solution.isInterleave('aabcc', 'dbbca', 'aadbbbaccc')

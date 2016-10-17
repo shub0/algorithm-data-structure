@@ -48,20 +48,15 @@ class Solution(object):
                 cnt -= 1
             if cnt >= 0:
                 continue
-            # Invalid sequences
             for j in range(last_j, i+1):
-                # only remove the first ")" in a series of concecutive ")"s
-                if string[j] == chars[1] and (j == last_j or string[j-1] != chars[1]):
+                if (string[j] == chars[1]) and (j == last_j or string[j-1] != chars[1]):
                     self.remove(string[:j] + string[j+1:], i, j, chars)
             return
         reversed = string[::-1]
-        # Finish from left to right
-        if chars[0] == "(":
+        if (chars[0] == "("):
             self.remove(reversed, 0, 0, ")(")
-        # Finish from right to left
         else:
             self.output.append(reversed)
-
 
     def removeInvalidParenthesesQuick(self, s):
         """
