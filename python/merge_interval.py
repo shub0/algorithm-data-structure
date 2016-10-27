@@ -1,40 +1,27 @@
-#! /usr/bin/python
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
 
-'''
-Given a collection of intervals, merge all overlapping intervals.
-
-For example,
-Given [1,3],[2,6],[8,10],[15,18],
-return [1,6],[8,10],[15,18].
-'''
-
-from Interval import Interval
-class Solution:
-    # @param {Interval[]} intervals
-    # @return {Interval[]}
+class Solution(object):
     def merge(self, intervals):
-        output = list()
-        intervals.sort(key=lambda x: x.end)
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
         size = len(intervals)
+        output = list()
         if size == 0:
             return output
-        start = intervals[0].start
-        end   = intervals[0].end
-        output.append(intervals[0])
-        for index in range(1, size):
-            current_interval = intervals[index]
-            # no overlapping
-            if end < current_interval.start:
-                # update start, end
-                start = current_interval.start
-                end = current_interval.end
-                output.append(current_interval) # copy data
-                continue
-            while len(output) > 0 and output[-1].end >= current_interval.start:
-                last_interval = output.pop()
-                start = min(last_interval.start, current_interval.start)
-                end   = max(last_interval.end,   current_interval.end)
-            output.append(Interval(start, end))
+        intervals.sort(key=lambda x: x.end)
+        for index in range(size):
+            curr = intervals[index]
+            while len(output) > 0 and curr.start <= output[-1].end:
+                last = output.pop()
+                curr.start = min(last.start, curr.start)
+                curr.end = max(last.end, curr.end)
+            output.append(curr)
         return output
 
 if __name__ == '__main__':

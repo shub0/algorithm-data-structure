@@ -16,40 +16,41 @@ This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
 
 from Interval import Interval
 class Solution:
-    # @param {Interval[]} intervals
-    # @param {Interval} newInterval
-    # @return {Interval[]}
-    def insert(self, intervals, new_interval):
+    def insert(self, intervals, new):
+        """
+        :type intervals: List[Interval]
+        :type new: Interval
+        :rtype: List[Interval]
+        """
         size = len(intervals)
-        index = 0
+        output = list()
         inserted = False
-        new_intervals = list()
-        start = new_interval.start
-        end   = new_interval.end
+        index = 0
         while index < size:
-            current_interval = intervals[index]
+            curr = intervals[index]
             # no overlapping
-            if inserted or start > current_interval.end:
-                new_intervals.append(current_interval)
+            if not inserted and curr.end < new.start:
+                output.append(curr)
                 index += 1
                 continue
-            while index < size:
-                current_interval = intervals[index]
-                # no overlapping
-                if end < current_interval.start or start > current_interval.end:
-                    break
-                start = min(start, current_interval.start)
-                end   = max(end, current_interval.end)
+            if inserted:
+                new = curr
                 index += 1
-            new_intervals.append(Interval(start, end))
             inserted = True
+            # overlapping
+            while len(output) > 0 and output[-1].end >= new.start:
+                last = output.pop()
+                new.start = min(new.start, last.start)
+                new.end = max(new.end, last.end)
+            output.append(new)
 
         if not inserted:
-            new_intervals.append(Interval(start, ned))
-        return new_intervals
+            output.append(new)
+        return output
 
 if __name__ == '__main__':
     solution = Solution()
-    a_list = [Interval(1,3), Interval(8,10), Interval(15,18)]
-    b_list = solution.insert(a_list, Interval(4,9))
+    a_list = [Interval(1,2), Interval(3,5), Interval(6,7), Interval(8,10),Interval(12,16)]
+    b_list = solution.insert1(a_list, Interval(4,9))
+    print "Expected [[1, 2], [3, 10], [12, 16]], got "
     print b_list

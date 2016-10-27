@@ -23,36 +23,52 @@ Note: Each word is guaranteed not to exceed L in length.
 '''
 
 class Solution:
-    def align(self, words, maxWidth):
-        num_words = len(words)
-        if num_words == 1:
-            return words[0] + ' ' * (maxWidth - len(words[0]))
-        size = sum(map(len, words))
-        if num_words == 2:
-            return words[0] + ' ' * (maxWidth - size) + words[1]
-        space = ' ' * ((maxWidth - size) / (num_words - 1))
-        line  = space.join(words[1:])
-        return words[0] + ' ' * (maxWidth - len(line) - len(words[0])) + line
-
-    # @param {string[]} words
-    # @param {integer} maxWidth
-    # @return {string[]}
     def fullJustify(self, words, maxWidth):
-        size_array = map(len, words)
-        num_words  = len(size_array)
-        curr_len   = 0
-        start_index = 0
-        text = list()
-        for index in range(num_words):
-            curr_len += size_array[index] # put the word in the current line
-            curr_len += 1 # space
-            if index+1 < num_words and curr_len + size_array[index+1] <= maxWidth:
-                continue
-            text.append(self.align(words[start_index: index+1], maxWidth))
-            start_index = index + 1
-            curr_len = 0
-        return text
+        """
+        :type words: List[str]
+        :type maxWidth: int
+        :rtype: List[str]
+        """
+        size = len(words)
+        current_len = 0
+        current = list()
+        output = list()
+        index = 0
+        while index < size:
+            current_len += len(words[index])
+            if current_len <= maxWidth:
+                current.append(words[index])
+                current_len += 1
+                index += 1
+            else:
+                output.append(self.makeLine(current, maxWidth))
+                current_len = 0
+                current = list()
+        output.append(self.makeLineLast(current, maxWidth))
+        return output
+
+    def makeLineLast(self, words, maxWidth):
+        size = len(words)
+        if size == 0:
+            return " " * maxWidth
+        line = " ".join(words)
+        return line + " " * (maxWidth - len(line))
+
+    def makeLine(self, words, maxWidth):
+        size = len(words)
+        if size == 0:
+            return " " * maxWidth
+        word_size = sum(map(lambda x: len(x), words))
+        if size == 1:
+            return words[0] + " " * ( maxWidth - word_size )
+        std_space = (maxWidth - word_size) / (size - 1)
+        space = " " * std_space
+        extra_space = maxWidth - std_space * (size-1) - word_size
+        big_space = " " * (std_space + 1)
+        return big_space.join(words[:extra_space + 1]) + space + space.join(words[extra_space+1:])
 
 if __name__ == '__main__':
     solution = Solution()
-    print solution.fullJustify(	["What","must","be","shall","be."], 12)
+    output =  solution.fullJustify2(["Don't","go","around","saying","the","world","owes","you","a","living;","the","world","owes","you","nothing;","it","was","here","first."], 30)
+    print output
+    print map(lambda x: len(x), output)

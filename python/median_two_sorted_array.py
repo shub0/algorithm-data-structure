@@ -35,3 +35,5 @@ class Solution:
 if __name__ == '__main__':
     solution = Solution()
     print solution.findMedianSortedArrays([1,2], [1])
+
+
