@@ -32,7 +32,7 @@ class Solution:
             if char == "e":
                 return (not sci) and (index > 0) and (index < size-1)  and (self.isNumber(s[index+1:], False, True, True))
             if char == ".":
-                if dot: return False
+                if dot or index == size-1: return False
                 dot = True
         return True
 

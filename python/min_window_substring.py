@@ -17,38 +17,41 @@ If there are multiple such windows, you are guaranteed that there will always be
 
 class Solution:
     # @return a string
-    def minWindow(self, S, T):
+    def minWindow(self, s, t):
         import collections
-        dict_T = collections.defaultdict(int)
-        dict_S = collections.defaultdict(int)
-        size_T = len(set(T))
-        size_S = len(S)
-        for char in T:
-            dict_T[char] += 1
-        start, end = 0, 0
+        dict_t = collections.defaultdict(int)
+        dict_w = collections.defaultdict(int)
+        size = len(s)
+        for char in t:
+            dict_t[char] += 1
+        flag = False
+        end = 0
+        start = 0
         match = 0
-        flag  = False
-        min_window = S
-        while end < size_S:
-            char = S[end]
-            dict_S[char] += 1
-            if dict_S[char] == dict_T.get(char, 0):
+        window = s
+        total_char = len(dict_t.keys())
+        while end < size:
+            char = s[end]
+            dict_w[char] += 1
+            end += 1
+            if dict_w[char] == dict_t[char]:
                 match += 1
-            if match == size_T:
+
+            if ( match == total_char ):
                 flag = True
-                while start <= end:
-                    char = S[start]
-                    dict_S[char] -= 1
+                while start < end:
+                    _char = s[start]
+                    dict_w[_char] -= 1
                     start += 1
-                    if dict_S[char] < dict_T[char]:
+                    if dict_w[_char] < dict_t[_char]:
                         match -= 1
                         break
-                if end - start + 2 < len(min_window):
-                    min_window = S[start-1: end+1]
-            end += 1
+                if (end-start+1) < len(window):
+                    window = s[start-1:end]
+
         if flag:
-            return min_window
-        return ''
+            return window
+        return ""
 
 if __name__ == '__main__':
     solution = Solution()

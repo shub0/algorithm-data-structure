@@ -52,3 +52,4 @@ if __name__ == '__main__':
     solution = Solution()
     print solution.findSubstring('barfoothefoobarman', ['foo', 'bar'])
     print solution.findSubstring('aaa', ['a','a'])
+

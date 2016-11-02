@@ -47,6 +47,25 @@ class Solution:
         print marker
         return 2 * max_len
 
+    def longestValidParenthesesDP(self, s):
+b        """
+        :type s: str
+        :rtype: int
+        """
+        size = len(s)
+        if size < 2:
+            return 0
+        dp = [0] * (size)
+        for index in range(1,size):
+            char = s[index]
+            _index = index - 1 - dp[index-1]
+            if (char == "(" or _index < 0 or s[_index] == ")"):
+                dp[index] = 0
+            else:
+                dp[index] = 2 + dp[index-1] + dp[_index-1]
+        print dp
+        return max(dp)
+
 if __name__ == '__main__':
     solution = Solution()
-    print solution.longestValidParentheses(')()())')
+    print solution.longestValidParenthesesDP('(()))(()())')

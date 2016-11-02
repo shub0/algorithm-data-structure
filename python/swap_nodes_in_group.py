@@ -58,7 +58,7 @@ if __name__ == '__main__':
     list_array = list()
     head = ListNode(1)
     cursor_node = head
-    for index in range(2,10):
+    for index in range(2,3):
         cursor_node.next = ListNode(index)
         cursor_node = cursor_node.next
     solution = Solution()

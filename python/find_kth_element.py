@@ -23,9 +23,39 @@ class Solution:
                 heapq.heappop(heap)
         return heapq.heappop(heap)
 
+    def findKthElement(self, nums, k):
+        size = len(nums)
+        k = size - k + 1
+        if size < k:
+            raise ValueError("size of list(%d) is smaller than k(%d)" % (size, k))
+        start = 0
+        end = size - 1
+        while True:
+            pivot = nums[start]
+            pivot_index = start
+            for index in range(start, end+1):
+                if nums[index] < pivot:
+                    pivot_index += 1
+                    nums[index], nums[pivot_index] = nums[pivot_index], nums[index]
+            nums[start], nums[pivot_index] = nums[pivot_index], nums[start]
+
+            left_size = pivot_index - start + 1
+            # search first half
+            if left_size > k:
+                end = pivot_index
+            # search second half
+            elif left_size < k:
+                start = pivot_index + 1
+                k -= left_size
+            else:
+                return nums[pivot_index]
 
 if __name__ == '__main__':
+    import random
     data = range(1, 11)
+    random.shuffle(data)
     solution = Solution()
-    print data
-    print solution.findKthLargest(data, 3)
+    sort = sorted(data)
+    k = 4
+    print "Expected %d, got" % (sort[-k])
+    print solution.findKthElement(data, k)
