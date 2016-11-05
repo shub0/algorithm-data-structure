@@ -52,6 +52,17 @@ class Solution:
             current_node = current_node.right
         return output
 
+    def printReverse(self, start, end, output):
+        self.reverse(start, end)
+        curr = end
+        while True:
+            output.append(curr.val)
+            if (curr == start):
+                break
+            curr = curr.right
+        self.reverse(start, end)
+
+
     def levelOrderTraversal(self, root):
         output = list()
         if not root:
@@ -77,7 +88,86 @@ class Solution:
                     nodes_in_tree.append(current_node.right)
         return output
 
+    def preorderMorris(self, root):
+        curr = root
+        output = list()
+        while curr:
+            if not curr.left:
+                output.append(curr.val)
+                curr = curr.right
+            else:
+                cursor = curr.left
+                while cursor.right and cursor.right != curr:
+                    cursor = cursor.right
+                if cursor.right == curr:
+                    cursor.right = None
+                    curr = curr.right
+                else:
+                    output.append(curr.val)
+                    cursor.right = curr
+                    curr = curr.left
+        return output
 
+    def inorderMorris(self, root):
+        curr = root
+        output = list()
+        while curr:
+            if not curr.left:
+                output.append(curr.val)
+                curr = curr.right
+            else:
+                cursor = curr.left
+                while cursor.right and cursor.right != curr:
+                    cursor = cursor.right
+                if not cursor.right:
+                    cursor.right = curr
+                    curr = curr.left
+                else:
+                    cursor.right = None
+                    output.append(curr.val)
+                    curr = curr.right
+        return output
+    def reverse(self, start, end):
+        if start == end:
+            return
+        x, y = start, start.right
+        while x != end:
+            z = y.right
+            y.right = x
+            x = y
+            y = z
+
+    def postorderMorris(self, root):
+        pivot = TreeNode(0)
+        pivot.left = root
+        curr = pivot
+        output = list()
+
+        def printReverse(start, end):
+            self.reverse(start, end)
+            curr = end
+            while True:
+                output.append(curr.val)
+                if (curr == start):
+                    break
+                curr = curr.right
+            self.reverse(end, start)
+
+        while curr:
+            if not curr.left:
+                curr = curr.right
+                continue
+            cursor = curr.left
+            while cursor.right and cursor.right != curr:
+                cursor = cursor.right
+            if not cursor.right:
+                cursor.right = curr
+                curr = curr.left
+            else:
+                printReverse(curr.left, cursor)
+                cursor.right = None
+                curr = curr.right
+        return output
 
 if __name__ == '__main__':
     solution = Solution()
@@ -86,6 +176,9 @@ if __name__ == '__main__':
     root.right = TreeNode(2)
     root.right.right = TreeNode(3)
     print 'pre order: %s'  % solution.preOrderTraversalNonRecursive(root)
+    print 'pre order: %s'  % solution.preorderMorris(root)
     print 'in order: %s'   % solution.inOrderTraversalNonRecursive(root)
+    print 'in order: %s'  % solution.inorderMorris(root)
     print 'post order: %s' % solution.postOrderTraversalNonRecursive(root)
+    print 'post order: %s' % solution.postorderMorris(root)
     print 'level order: %s'% solution.levelOrderTraversal(root)
