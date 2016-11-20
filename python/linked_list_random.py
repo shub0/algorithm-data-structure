@@ -44,7 +44,7 @@ class Solution(object):
         """
         count = 1
         curr = self.head
-        seed = random.randint(0, size-1)
+        seed = random.randint(0, self.size-1)
         while curr.next and seed > 0:
             seed -= 1
             curr = curr.next
