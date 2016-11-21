@@ -58,6 +58,21 @@ class Solution(object):
             output.append(pos)
         return output[::-1]
 
+    def countSmallerQuick(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        import bisect
+        output = []
+        data = list()
+        for num in nums[::-1]:
+            loc = bisect.bisect_left(data, num)
+            output.append(loc)
+            bisect.insort(data, num)
+        return output[::-1]
+
 solution = Solution()
 print "expected [3, 2, 2, 1, 1, 0], got"
 print solution.countSmaller([5,2,6,1,8,0])
+print solution.countSmallerQuick([5,2,6,1,8,0])
