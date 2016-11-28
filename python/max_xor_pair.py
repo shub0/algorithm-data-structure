@@ -56,12 +56,6 @@ class Solution(object):
             maxXor = max(maxXor, curXor)
         return maxXor
 
-    def findMaximumXor(self, nums):
-        for num in nums:
-            for _num in nums:
-                if (num != _num):
-                    print "%d XOR %d = %d" % (num, _num, num ^ _num)
-
 solution = Solution()
 print solution.findMaximumXOR([3, 10, 5, 25, 2, 8])
 print solution.findMaximumXOR([32,18,33,42,29,20,26,36,15,46])

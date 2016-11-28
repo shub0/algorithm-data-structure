@@ -8,83 +8,124 @@ GetMinKey() - Returns one of the keys with minimal value. If no element exists, 
 Challenge: Perform all these in O(1) time complexity.
 '''
 
-import collections
-import sys
-class AllOne(object):
+# Double Linked List Node
+class Node:
+    def __init__(self, value, next, prev, key):
+        self.next = next
+        self.prev = prev
+        self.value = value
+        self.keys = {key}
+
+class DoubleList:
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.data = collections.defaultdict(int)
-        self.freq = collections.defaultdict(set)
-        self.max_freq = 0
-        self.min_freq = 1
+        self.head = Node(-1, None, None, "")
+        self.tail = Node(-1, None, None, "")
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def insertAfter(self, node, val, key):
+        new = Node(val, node.next, node, key)
+        node.next = new
+        new.next.prev = new
+        return new
+
+    def remove(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        del node
+
+class AllOne(object):
+
+    def __init__(self):
+        self.dll = DoubleList()
+        self.data = {}
 
     def inc(self, key):
-        """
-        Inserts a new key <Key> with value 1. Or increments an existing key by 1.
-        :type key: str
-        :rtype: void
-        """
-        orig = self.data[key]
-        if (key in self.freq[self.min_freq]) and (len(self.freq[self.min_freq]) == 1):
-            self.min_freq += 1
+        if key not in self.data:
+            n = self.dll.insertAfter(self.dll.head, 0, key)
+            self.data[key] = n
         else:
-            self.min_freq = max(1, min(self.min_freq, orig+1))
-        if orig > 0:
-            self.freq[orig].remove(key)
-        self.freq[orig+1].add(key)
-        self.data[key] += 1
-        self.max_freq = max(self.max_freq, orig+1)
+            n = self.data[key]
+
+        if n.value + 1 == n.next.value:
+            # merge with next
+            self.data[key] = n.next
+            n.keys.remove(key)
+            n.next.keys.add(key)
+        elif len(n.keys) == 1:
+            # increment in place
+            n.value += 1
+        else:
+            # insert new node
+            new = self.dll.insertAfter(n, n.value+1, key)
+            self.data[key] = new
+            n.keys.remove(key)
+
+        #Garbage collection
+        if len(n.keys) <= 0:
+            self.dll.remove(n)
 
     def dec(self, key):
-        """
-        Decrements an existing key by 1. If Key's value is 1, remove it from the data structure.
-        :type key: str
-        :rtype: void
-        """
-        orig = self.data[key]
-        if orig == 0:
+        if key not in self.data:
             return
-        if (key in self.freq[self.max_freq]) and (len(self.freq[self.max_freq]) == 1):
-            self.max_freq -= 1
         else:
-            self.max_freq = max(self.max_freq, orig-1)
-        self.freq[orig].remove(key)
-        self.data[key] -= 1
-        self.freq[orig-1].add(key)
-        self.min_freq = max(1, min(self.min_freq, orig-1))
+            n = self.data[key]
+
+        if n.value == 1:
+            # remove key/node
+            del self.data[key]
+            n.keys.remove(key)
+        elif n.value - 1 == n.prev.value:
+            # merge with previous
+            self.data[key] = n.prev
+            n.keys.remove(key)
+            n.prev.keys.add(key)
+        elif len(n.keys) == 1:
+            # decrement in place
+            n.value -= 1
+        else:
+            # insert new node
+            new = self.dll.insertAfter(n.prev, n.value-1, key)
+            n.keys.remove(key)
+            self.data[key] = new
+
+        # Garbage collection
+        if len(n.keys) <= 0:
+            self.dll.remove(n)
 
     def getMaxKey(self):
-        """
-        Returns one of the keys with maximal value.
-        :rtype: str
-        """
-        if not self.freq[self.max_freq]:
+        if self.dll.head.next.value == -1:
             return ""
-        key = self.freq[self.max_freq].pop()
-        self.freq[self.max_freq].add(key)
-        return key
+        for k in self.dll.tail.prev.keys:
+            break
+        return k
 
     def getMinKey(self):
-        """
-        Returns one of the keys with Minimal value.
-        :rtype: str
-        """
-        if not self.freq[self.min_freq]:
+        if self.dll.head.next.value == -1:
             return ""
-        key = self.freq[self.min_freq].pop()
-        self.freq[self.min_freq].add(key)
-        return key
+        for k in self.dll.head.next.keys:
+            break
+        return k
 
 # Your AllOne object will be instantiated and called as such:
+'''
+["inc","inc","inc","inc","inc","inc","dec","dec","getMinKey","dec","getMaxKey","getMinKey"]
+[["a"],["b"],["b"],["c"],["c"],["c"],["b"],["b"],[],["a"],[],[]]
+'''
+
 obj = AllOne()
-obj.inc("Dumbo")
-obj.inc("Dumbo")
-obj.inc("BB")
-print obj.getMaxKey()
-print obj.getMinKey()
-obj.dec("Dumbo")
-obj.dec("Dumbo")
-print obj.getMaxKey()
-print obj.getMinKey()
+obj.inc("a")
+obj.inc("b")
+obj.inc("b")
+obj.inc("c")
+obj.inc("c")
+obj.inc("c")
+obj.dec("b")
+obj.dec("b")
+print obj.min_freq
+print obj.freq[obj.min_freq]
+obj.dec("a")
+print obj.max_freq
+print obj.freq[obj.max_freq]
+print obj.min_freq
+print obj.freq[obj.min_freq]
