@@ -71,9 +71,10 @@ class Codec:
         return nodes[0]
 
 # Your Codec object will be instantiated and called as such:
-codec = Codec()
-data = "[-1,0,1]"
-root = codec.deserialize(data)
-print root.val
-print codec.serialize(root)
+if __name__ == '__main__':
+    codec = Codec()
+    data = "[-1,0,1]"
+    root = codec.deserialize(data)
+    print root.val
+    print codec.serialize(root)
 # print codec.deserialize(codec.serialize(root))
