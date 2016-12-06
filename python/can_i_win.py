@@ -33,3 +33,26 @@ class Solution(object):
         :type desiredTotal: int
         :rtype: bool
         """
+        if (1+maxChoosableInteger) * maxChoosableInteger / 2 < desiredTotal:
+            return False
+        self.dp = {}
+        return self.buildDP(range(1, maxChoosableInteger+1), 2 ** (maxChoosableInteger), desiredTotal)
+
+    def buildDP(self, nums, hash_code, desiredTotal):
+        if hash_code in self.dp:
+            return self.dp[hash_code]
+
+        if nums[-1] >= desiredTotal:
+            self.dp[hash_code] = True
+            return True
+
+        for i in range(len(nums)):
+            if not self.buildDP( (nums[:i]+nums[i+1:]), hash_code - 2 ** nums[i], desiredTotal-nums[i]):
+                self.dp[hash_code] = True
+                return True
+
+        self.dp[hash_code] = False
+        return False
+
+solution = Solution()
+print solution.canIWin(10, 40)
