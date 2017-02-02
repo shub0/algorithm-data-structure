@@ -62,6 +62,23 @@ class Solution:
             out.append(chr(carry + OFFSET))
         return ''.join(out[::-1])
 
+    def multiply2(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        M = len(num1)
+        N = len(num2)
+        output = [0] * (M+N)
+        for (m, digit1) in enumerate(num1[::-1]):
+            for (n, digit2) in enumerate(num2[::-1]):
+                product = output[m+n] + int(digit1) * int(digit2)
+                output[m+n] = product % 10
+                output[m+n+1] += product / 10
+        return "".join([ str(digit) for digit in output[::-1] ]).lstrip("0")
+
 if __name__ == '__main__':
     solution = Solution()
-    print solution.multiply('140','721')
+    print "expected: %d" % (140 * 721)
+    print solution.multiply2('140','721')

@@ -65,3 +65,4 @@ class Solution(object):
                     return True
             log[b] = (index, num)
         return False
+

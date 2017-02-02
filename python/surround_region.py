@@ -78,8 +78,6 @@ class Solution:
 
 if __name__ == '__main__':
     solution = Solution()
-    board = [list("OOO"),list("OOO"),list("OOO")]
+    board = ["XXXX","XOOX", "XXOX", "XOXX"]
     solution.solve(board)
     print board
-
-

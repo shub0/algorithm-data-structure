@@ -44,19 +44,19 @@ class Solution(object):
                 buy_price = prices[index]
         return profit
 
-        def maxProfit3(self, prices):
+     def maxProfit3(self, prices):
         """
         :type prices: List[int]
         :rtype: int
         """
         MIN_INT = -1e10
-        buy1, buy2 = MIN_INT, MIN_INT
+        loan1, loan2 = MIN_INT, MIN_INT
         profit1, profit2 = 0, 0
         for price in prices:
-            buy1 = max(buy1, -price)
-            profit1 = max(profit1, price+buy1)
-            buy2 = max(buy2, profit1-price)
-            profit2 = max(profit2, price+buy2)
+            loan1 = max(loan1, -price)
+            profit1 = max(profit1, price+loan1)
+            loan2 = max(loan2, profit1-price)
+            profit2 = max(profit2, price+loan2)
         return max(profit2, profit1)
 
     def maxProfit4(self, k, prices):

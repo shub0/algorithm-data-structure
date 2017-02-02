@@ -17,6 +17,8 @@ from node_struct import TreeNode
 class Solution:
     # @return an integer
     def numTrees(self, n):
+        if n == 0:
+            return 0
         num_BST = [0] * (n+1)
         num_BST[0] = 1
         num_BST[1] = 1
@@ -61,8 +63,36 @@ class Solution:
                         tree_list.append(root_node)
         return tree_list
 
+
+    def copyTree(self, root, base):
+        if not root:
+            return root
+        new_root = TreeNode(root.val + base)
+        new_root.left = self.copyTree(root.left, base)
+        new_root.right = self.copyTree(root.right, base)
+        return new_root
+
+    def generateTrees2(self, n):
+        """
+        :type n: int
+        :rtype: List[TreeNode]
+        """
+        if n < 0:
+            return []
+        dp = [ [] for _ in range(n+1) ]
+        dp[0].append(None)
+        for index in range(1, n+1):
+            for mid in range(1,index+1):
+                for left_tree in dp[mid-1]:
+                    for right_tree in dp[index-mid]:
+                        root = TreeNode(mid)
+                        root.left = self.copyTree(left_tree, 0)
+                        root.right = self.copyTree(right_tree, mid)
+                        dp[index].append(root)
+        return dp[-1]
+
 if __name__ == '__main__':
     solution = Solution()
-    for index in range(1,8):
-        tree_list = solution.generateTrees(index)
-        print 'n = %d, test passed: %s' % (index, len(tree_list) == solution.numTrees(index))
+    for index in range(0,10):
+        tree_list = solution.generateTrees2(index)
+        print 'n = %d, expected %d, got %d' % (index, len(tree_list), solution.numTrees(index))

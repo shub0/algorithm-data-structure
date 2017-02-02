@@ -58,3 +58,4 @@ print solution.strongPasswordChecker("aaa111")
 print solution.strongPasswordChecker("aaaaaaaaaaaaaaaaaaaaa")
 print solution.strongPasswordChecker("ABABABABABABABABABAB1")
 print solution.strongPasswordChecker("..................!!!")
+

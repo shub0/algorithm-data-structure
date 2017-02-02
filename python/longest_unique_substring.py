@@ -30,8 +30,32 @@ class Solution:
             substring = s[start:end]
         return len(substring)
 
+    def lengthOfLongestSubstring2(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        size = len(s)
+        left = 0
+        right = 0
+        substring = set()
+        subsize = 0
+        while (right < size):
+            char = s[right]
+            if (char in substring):
+                subsize = max(subsize, len(substring))
+                while (left < right):
+                    left_char = s[left]
+                    substring.remove(left_char)
+                    left += 1
+                    if (left_char != char):
+                        break
+            substring.add(char)
+            right += 1
+        return subsize
+
 if __name__ == '__main__':
     solution = Solution()
-    print solution.lengthOfLongestSubstring('ohomm')
-    print solution.lengthOfLongestSubstring('abcdc')
-    print solution.lengthOfLongestSubstring('bbb')
+    print solution.lengthOfLongestSubstring2('ohomm')
+    print solution.lengthOfLongestSubstring2('abcdc')
+    print solution.lengthOfLongestSubstring2('bbb')

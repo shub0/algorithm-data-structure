@@ -37,3 +37,4 @@ class Solution:
 if __name__ == '__main__':
 	solution = Solution()
 	print solution.longestConsecutive([1,3,2,4,5])
+

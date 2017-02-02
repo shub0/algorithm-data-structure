@@ -35,3 +35,4 @@ class Solution(object):
 
 solution = Solution()
 print solution.palindromePairs(["abcd", "dcba", "lls", "s", "sssll"])
+
