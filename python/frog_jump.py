@@ -55,6 +55,25 @@ class Solution(object):
                         mark.add(target)
         return last_stone in visited
 
+
+    def canCross2(self, stones):
+        """
+        :type stones: List[int]
+        :rtype: bool
+        """
+        import collections
+        visited = collections.defaultdict(set)
+        visited[stones[0]].add(0)
+        mark = { stones[0] }
+        accs = [-1, 0, 1]
+        stones_set = set(stones)
+        for stone in stones:
+            for speed in visited[stone]:
+                for acc in accs:
+                    if speed+acc > 0 and stone+speed+acc in stones_set:
+                        visited[stone+speed+acc].add(speed+acc)
+        return len(visited[stones[-1]]) > 0
+
 solution = Solution()
 print solution.canCross([0,1,3,5,6,8,12,17])
 print solution.canCross([0,1,2,3,4,8,9,11])

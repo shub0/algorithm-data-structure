@@ -55,11 +55,12 @@ class Solution(object):
         size = len(A)
         res = 0
         dp = [ collections.defaultdict(int) for _ in range(size) ]
-        for i in range(size):
-            for j in range(i):
+        for i in xrange(size):
+            for j in xrange(i):
                 diff = A[i] - A[j]
                 dp_t = dp[j][diff] + 1
                 # filter out subsequence with length < k
+                # dp_t = 1 => there are 3 elements in the subsequence
                 res += max(dp_t-k+2, 0)
                 dp[i][diff] += dp_t
         return res

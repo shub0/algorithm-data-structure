@@ -50,9 +50,37 @@ rectangles = [
 Return false. Because two of the rectangles overlap with each other.
 '''
 
+
 class Solution(object):
+    # Inner points must present even times
+    # Corner points must present only once
+    # Total area must be the sum of each rectangle
     def isRectangleCover(self, rectangles):
         """
         :type rectangles: List[List[int]]
         :rtype: bool
         """
+        import collections
+        def getSize(rectangle):
+            return abs(rectangle[0] - rectangle[2]) * abs(rectangle[1] - rectangle[3])
+        def recordPoint(rectangle):
+            points[ (rectangle[0], rectangle[1]) ] += 1
+            points[ (rectangle[2], rectangle[3]) ] += 1
+            points[ (rectangle[0], rectangle[3]) ] += 1
+            points[ (rectangle[2], rectangle[1]) ] += 1
+
+        points = collections.defaultdict(int)
+        area = 0
+        L, B, R, T = float("inf"), float("inf"), float("-inf"), float("-inf")
+        for rectangle in rectangles:
+            L, B, R, T = min(rectangle[0], L), min(rectangle[1], B), max(rectangle[2], R), max(rectangle[3], T)
+            area += getSize(rectangle)
+            recordPoint(rectangle)
+        if area != getSize( (L, B, R, T) ):
+            return False
+        corners = { (L, B), (L, T), (R, B), (R, T) }
+        if any(points[corner] != 1 for corner in corners):
+            return False
+        if any(points[point] %2 != 0 for point in points if point not in corners):
+            return False
+        return True

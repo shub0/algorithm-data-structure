@@ -60,3 +60,4 @@ solution = Solution()
 print solution.longestSubstring("aaabbc", 2)
 print solution.longestSubstring("aaabb", 3)
 print solution.longestSubstring("bbaaacbd", 3)
+
