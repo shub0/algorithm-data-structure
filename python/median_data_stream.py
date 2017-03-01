@@ -69,3 +69,4 @@ mf.addNum(2)
 mf.addNum(2)
 mf.addNum(3)
 print mf.findMedian()
+

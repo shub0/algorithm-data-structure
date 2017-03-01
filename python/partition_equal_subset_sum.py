@@ -40,7 +40,6 @@ class Solution(object):
             while index >= num:
                 dp[index] = (dp[index] or dp[index - num])
                 index -= 1
-        print dp
         return dp[target]
 
 solution = Solution()
